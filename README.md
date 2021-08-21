@@ -9,6 +9,13 @@ Technical challenge that is part of an interview process
 #### Added
 #### Changed
 #### Removed
+### [0.5.0]
+#### Added
+- MagnusAPI updated to new version using Flask
+- Random string on Terraform that is used as Flask secret key
+- Support for upgrading the database in the custom data script
+#### Changed
+#### Removed
 ### [0.4.0]
 #### Added
 - Terraform DNS zone module
