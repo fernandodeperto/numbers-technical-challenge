@@ -11,5 +11,6 @@ output "ARM_TENANT_ID" {
 }
 
 output "ARM_CLIENT_SECRET" {
-  value = azuread_service_principal_password.this.value
+  value     = azuread_service_principal_password.this.value
+  sensitive = true
 }
