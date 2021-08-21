@@ -51,7 +51,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
   sku                 = "Standard_F2"
-  instances           = 2
+  instances           = 1
   admin_username      = "adminuser"
   health_probe_id     = azurerm_lb_probe.this.id
 
