@@ -7,11 +7,16 @@ Technical challenge that is part of an interview process
 
 ### [Unreleased]
 #### Added
+#### Changed
+#### Removed
+### [0.4.0]
+#### Added
 - Terraform DNS zone module
 - New production environment containing the DNS zone deployment
 #### Changed
 - Fixed small issues with the Webfarm module's custom data script
 - Added support for creating an A record on the Webfarm module
+- Changed default magnusapi response so it also prints the current version
 #### Removed
 ### [0.3.0]
 #### Added
