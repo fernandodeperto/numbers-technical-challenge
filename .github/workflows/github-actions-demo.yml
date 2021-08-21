@@ -1,11 +1,13 @@
-name: GitHub Actions Demo
+name: Techinical challenge
 on: [push]
 jobs:
-  Explore-GitHub-Actions:
+  Test-Terraform:
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
         uses: actions/checkout@v2
-      - name: List files in the repository
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+      - name: Test Terraform
         run: |
-          ls ${{ github.workspace }}
+          terraform version
