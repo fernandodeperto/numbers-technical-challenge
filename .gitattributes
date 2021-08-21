@@ -1,2 +1,2 @@
 .gitattributes !filter !diff
-terraform-*/environments/*/terraform.tfstate filter=git-crypt diff=git-crypt
+terraform/environments/*/*/terraform.tfstate filter=git-crypt diff=git-crypt
