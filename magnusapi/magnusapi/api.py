@@ -1,41 +1,48 @@
-from typing import List
+import logging
+import os
 
-from fastapi import Depends, FastAPI
-from sqlalchemy.orm import Session
+from flask import Flask, request
 
-from . import crud, models, schemas
-from .database import SessionLocal, engine
+from magnusapi import db
 
-from magnusapi.version import __version__
-
-
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+from magnusapi.view import health
+from magnusapi.view import item
 
 
-models.Base.metadata.create_all(bind=engine)
+def create_app(config=None):
+    app = Flask(__name__, instance_relative_config=True)
 
-app = FastAPI()
+    app.config.from_mapping(
+        SECRET_KEY="dev",
+        SQLALCHEMY_DATABASE_URI="postgresql://postgres:postgres@localhost/postgres",
+        SQLALCHEMY_TRACK_MODIFICATIONS=False,
+        SQLALCHEMY_ECHO=False,
+    )
+
+    secret_key = os.environ.get("SECRET_KEY")
+    if secret_key:
+        app.config["SECRET_KEY"] = secret_key
+
+    database_uri = os.environ.get("SQLALCHEMY_DATABASE_URI")
+    if database_uri:
+        app.config["SQLALCHEMY_DATABASE_URI"] = database_uri
+
+    if config:
+        app.config.from_mapping(config)
+
+    db.init_app(app)
+
+    app.register_blueprint(health.bp)
+    app.register_blueprint(item.bp)
+
+    @app.after_request
+    def after(response):
+        logging.info(
+            f"{request.remote_addr} {request.method} {request.path} {response.status}"
+        )
+        return response
+
+    return app
 
 
-@app.get("/")
-def root():
-    return {
-        "message": "Hello World",
-        "version": __version__,
-    }
-
-
-@app.post("/item/", response_model=schemas.Item)
-def create_item(item: schemas.ItemCreate, db: Session = Depends(get_db)):
-    return crud.create_user_item(db=db, item=item)
-
-
-@app.get("/items/", response_model=List[schemas.Item])
-def read_items(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    items = crud.get_items(db, skip=skip, limit=limit)
-    return items
+app = create_app()

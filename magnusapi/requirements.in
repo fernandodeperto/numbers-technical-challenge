@@ -1,3 +1,5 @@
-fastapi
-sqlalchemy
-uvicorn
+flask
+flask-script
+flask-migrate
+gunicorn
+psycopg2-binary
