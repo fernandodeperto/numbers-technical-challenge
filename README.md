@@ -23,3 +23,6 @@ Technical challenge that is part of an interview process
 #### Changed
 #### Removed
 
+## References
+
+[1]: https://github.com/hashicorp/terraform-provider-azurerm/issues/8534
