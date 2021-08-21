@@ -5,16 +5,19 @@ Technical challenge that is part of an interview process
 
 ## Changelog
 
-### Unreleased
+### [Unreleased]
+#### Added
+#### Changed
+#### Removed
+### [0.1.0]
 #### Added
 - Repository, README file, branch and pull request
-- Github actions placeholder file
 - Git-crypt configuration
 - Gitignore
 - Pre-commit configuration
 - Terraform bootstrap remote state module
 - Terraform service principal module
-- Numbers test environment
+- Github actions file
 #### Changed
 #### Removed
 
