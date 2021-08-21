@@ -100,3 +100,9 @@ resource "azurerm_dns_a_record" "this" {
   ttl                 = 300
   records             = [azurerm_public_ip.this.ip_address]
 }
+
+resource "random_string" "flask_secret_key" {
+  length  = 32
+  special = false
+  # override_special = "/@$"
+}
