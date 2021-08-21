@@ -2,6 +2,7 @@ name: Techinical challenge
 on: [push]
 jobs:
   Test-Terraform:
+    environment: test
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository code
