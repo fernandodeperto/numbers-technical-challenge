@@ -16,3 +16,8 @@ variable "location" {
   description = "Azure location code"
   default     = "westeurope"
 }
+
+variable "branch" {
+  description = "Name of the git branch or tag to be used on the deployment"
+  default     = "technical-challenge"
+}

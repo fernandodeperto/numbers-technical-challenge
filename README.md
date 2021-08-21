@@ -9,6 +9,13 @@ Technical challenge that is part of an interview process
 #### Added
 #### Changed
 #### Removed
+### [0.3.0]
+#### Added
+- MagnusAPI early version code
+- Terraform custom data script that installs supervisord and loads the API
+#### Changed
+- Port used for communication changed from 80 to 8000, used by uvicorn
+#### Removed
 ### [0.2.0]
 #### Added
 - Terraform state lock files
