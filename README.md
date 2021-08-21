@@ -7,7 +7,10 @@ Technical challenge that is part of an interview process
 
 ### [Unreleased]
 #### Added
+- Terraform DNS zone module
+- New production environment containing the DNS zone deployment
 #### Changed
+- Fixed small issues with the Webfarm module's custom data script
 #### Removed
 ### [0.3.0]
 #### Added
