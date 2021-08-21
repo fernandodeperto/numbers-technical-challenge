@@ -6,7 +6,7 @@ resource "azurerm_resource_group" "this" {
 }
 
 resource "azurerm_monitor_autoscale_setting" "this" {
-  name                = local.resource_prefix
+  name                = "${local.resource_prefix}-autoscale"
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
   target_resource_id  = azurerm_linux_virtual_machine_scale_set.this.id
@@ -47,14 +47,15 @@ resource "azurerm_monitor_autoscale_setting" "this" {
 }
 
 resource "azurerm_linux_virtual_machine_scale_set" "this" {
-  name                = local.resource_prefix
+  name                = "${local.resource_prefix}-scaleSet"
   resource_group_name = azurerm_resource_group.this.name
   location            = azurerm_resource_group.this.location
   sku                 = "Standard_F2"
   instances           = 2
   admin_username      = "adminuser"
-  custom_data         = base64encode(data.template_file.this.rendered)
   health_probe_id     = azurerm_lb_probe.this.id
+
+  custom_data = base64encode(data.template_file.this.rendered)
 
   admin_ssh_key {
     username   = "adminuser"

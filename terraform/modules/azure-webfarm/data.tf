@@ -1,5 +1,5 @@
 data "template_file" "this" {
-  template = file("${path.module}/cloud-init.tpl.yaml")
+  template = file("${path.module}/custom_data.sh.tpl")
 
   vars = {
     stage = var.stage
