@@ -10,10 +10,14 @@ click==8.0.1
     # via uvicorn
 fastapi==0.68.0
     # via -r requirements.in
+greenlet==1.1.1
+    # via sqlalchemy
 h11==0.12.0
     # via uvicorn
 pydantic==1.8.2
     # via fastapi
+sqlalchemy==1.4.23
+    # via -r requirements.in
 starlette==0.14.2
     # via fastapi
 typing-extensions==3.10.0.0
