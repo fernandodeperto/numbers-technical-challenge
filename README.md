@@ -7,6 +7,8 @@ Technical challenge that is part of an interview process
 
 ### [Unreleased]
 #### Added
+- Terraform state lock files
+- Webfarm Terraform module
 #### Changed
 #### Removed
 ### [0.1.0]
