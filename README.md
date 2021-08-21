@@ -9,6 +9,11 @@ Technical challenge that is part of an interview process
 #### Added
 #### Changed
 #### Removed
+### [0.5.1]
+#### Added
+#### Changed
+- Updated Github actions to apply Webfarm Terraform code
+#### Removed
 ### [0.5.0]
 #### Added
 - MagnusAPI updated to new version using Flask
