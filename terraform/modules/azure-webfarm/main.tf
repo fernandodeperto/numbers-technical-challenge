@@ -8,7 +8,7 @@ resource "azurerm_resource_group" "this" {
 resource "azurerm_virtual_network" "this" {
   name                = local.resource_prefix
   address_space       = ["10.0.0.0/16"]
-  location            = var.location
+  location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
 
   tags = local.default_tags
@@ -23,16 +23,33 @@ resource "azurerm_subnet" "this" {
 
 resource "azurerm_public_ip" "this" {
   name                = local.resource_prefix
-  location            = var.location
+  location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
-  allocation_method   = "Dynamic"
+  allocation_method   = "Static"
 
   tags = local.default_tags
 }
 
+resource "azurerm_lb" "this" {
+  name                = local.resource_prefix
+  location            = azurerm_resource_group.this.location
+  resource_group_name = azurerm_resource_group.this.name
+
+  frontend_ip_configuration {
+    name                 = local.resource_prefix
+    public_ip_address_id = azurerm_public_ip.this.id
+  }
+}
+
+# resource "azurerm_lb_backend_address_pool" "this" {
+#  resource_group_name = azurerm_resource_group.this.name
+#  loadbalancer_id     = azurerm_lb.this.id
+#  name                = local.resource_prefix
+# }
+
 resource "azurerm_network_security_group" "this" {
   name                = local.resource_prefix
-  location            = var.location
+  location            = azurerm_resource_group.this.location
   resource_group_name = azurerm_resource_group.this.name
 
   security_rule {
@@ -50,52 +67,74 @@ resource "azurerm_network_security_group" "this" {
   tags = local.default_tags
 }
 
-resource "azurerm_network_interface" "this" {
-  name                = local.resource_prefix
-  location            = var.location
-  resource_group_name = azurerm_resource_group.this.name
+# resource "azurerm_network_interface" "this" {
+#   name                = local.resource_prefix
+#   location            = azurerm_resource_group.this.location
+#   resource_group_name = azurerm_resource_group.this.name
 
-  ip_configuration {
-    name                          = local.resource_prefix
-    subnet_id                     = azurerm_subnet.this.id
-    private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = azurerm_public_ip.this.id
+#   ip_configuration {
+#     name                          = local.resource_prefix
+#     subnet_id                     = azurerm_subnet.this.id
+#     private_ip_address_allocation = "Dynamic"
+#     public_ip_address_id          = azurerm_public_ip.this.id
+#   }
+
+#   tags = local.default_tags
+# }
+
+resource "azurerm_monitor_autoscale_setting" "this" {
+  name                = local.resource_prefix
+  resource_group_name = azurerm_resource_group.this.name
+  location            = azurerm_resource_group.this.location
+  target_resource_id  = azurerm_linux_virtual_machine_scale_set.this.id
+
+  profile {
+    name = "Work"
+
+    capacity {
+      default = 4
+      minimum = 1
+      maximum = 4
+    }
+
+    recurrence {
+      timezone = "UTC"
+      days     = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+      hours    = [8]
+      minutes  = [0]
+    }
   }
 
-  tags = local.default_tags
+  profile {
+    name = "Play"
+
+    capacity {
+      default = 1
+      minimum = 1
+      maximum = 4
+    }
+
+    recurrence {
+      timezone = "UTC"
+      days     = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"]
+      hours    = [16]
+      minutes  = [0]
+    }
+  }
 }
 
-resource "azurerm_network_interface_security_group_association" "this" {
-  network_interface_id      = azurerm_network_interface.this.id
-  network_security_group_id = azurerm_network_security_group.this.id
-}
+resource "azurerm_linux_virtual_machine_scale_set" "this" {
+  name                = local.resource_prefix
+  resource_group_name = azurerm_resource_group.this.name
+  location            = azurerm_resource_group.this.location
+  sku                 = "Standard_F2"
+  instances           = 2
+  admin_username      = "adminuser"
+  custom_data         = base64encode(data.template_file.this.rendered)
 
-resource "azurerm_storage_account" "this" {
-  name                     = replace("${local.resource_prefix}-boot", "-", "")
-  resource_group_name      = azurerm_resource_group.this.name
-  location                 = var.location
-  account_tier             = "Standard"
-  account_replication_type = "LRS"
-
-  tags = local.default_tags
-}
-
-resource "tls_private_key" "this" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
-}
-
-resource "azurerm_linux_virtual_machine" "this" {
-  name                  = local.resource_prefix
-  location              = var.location
-  resource_group_name   = azurerm_resource_group.this.name
-  network_interface_ids = [azurerm_network_interface.this.id]
-  size                  = "Standard_DS1_v2"
-
-  os_disk {
-    name                 = local.resource_prefix
-    caching              = "ReadWrite"
-    storage_account_type = "Premium_LRS"
+  admin_ssh_key {
+    username   = "adminuser"
+    public_key = file("~/.ssh/personal.pub")
   }
 
   source_image_reference {
@@ -105,17 +144,20 @@ resource "azurerm_linux_virtual_machine" "this" {
     version   = "latest"
   }
 
-  computer_name                   = local.resource_prefix
-  admin_username                  = "azureuser"
-  disable_password_authentication = true
-
-  admin_ssh_key {
-    username   = "azureuser"
-    public_key = tls_private_key.this.public_key_pem
+  os_disk {
+    storage_account_type = "Standard_LRS"
+    caching              = "ReadWrite"
   }
 
-  boot_diagnostics {
-    storage_account_uri = azurerm_storage_account.this.primary_blob_endpoint
+  network_interface {
+    name    = local.resource_prefix
+    primary = true
+
+    ip_configuration {
+      name      = local.resource_prefix
+      primary   = true
+      subnet_id = azurerm_subnet.this.id
+    }
   }
 
   tags = local.default_tags

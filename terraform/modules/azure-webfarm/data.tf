@@ -1,3 +1,7 @@
-data "azurerm_subscription" "primary" {}
+data "template_file" "this" {
+  template = file("${path.module}/cloud-init.tpl.yaml")
 
-data "azurerm_client_config" "current" {}
+  vars = {
+    stage = var.stage
+  }
+}
