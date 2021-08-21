@@ -5,3 +5,11 @@ repos:
     hooks:
       - id: terraform_fmt
       - id: terraform_docs
+  - repo: https://github.com/psf/black
+    rev: 20.8b1
+    hooks:
+    - id: black
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.7.9
+    hooks:
+    - id: flake8
