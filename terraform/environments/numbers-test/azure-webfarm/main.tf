@@ -3,6 +3,7 @@ module "webfarm" {
   source  = "../../../modules/azure-webfarm"
   project = "Numbers"
   stage   = "test"
+  branch  = "0.3.0"
 }
 
 output "module" {

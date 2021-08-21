@@ -46,6 +46,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| <a name="input_branch"></a> [branch](#input\_branch) | Name of the git branch or tag to be used on the deployment | `string` | `"technical-challenge"` | no |
 | <a name="input_location"></a> [location](#input\_location) | Azure location code | `string` | `"westeurope"` | no |
 | <a name="input_project"></a> [project](#input\_project) | Project name | `string` | n/a | yes |
 | <a name="input_stage"></a> [stage](#input\_stage) | Stage name. Use one of (test\|prod) | `any` | n/a | yes |

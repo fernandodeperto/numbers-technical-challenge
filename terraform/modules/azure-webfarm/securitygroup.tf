@@ -14,7 +14,7 @@ resource "azurerm_network_security_rule" "http" {
   access                      = "Allow"
   protocol                    = "Tcp"
   source_port_range           = "*"
-  destination_port_range      = 80
+  destination_port_range      = 8000
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
   network_security_group_name = azurerm_network_security_group.this.name
