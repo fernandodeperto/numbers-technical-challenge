@@ -6,5 +6,6 @@ module "service_principal" {
 }
 
 output "module" {
-  value = module.service_principal
+  sensitive = true
+  value     = module.service_principal
 }
