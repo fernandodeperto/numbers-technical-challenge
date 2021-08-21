@@ -92,3 +92,11 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
 
   depends_on = [azurerm_lb_rule.this]
 }
+
+resource "azurerm_dns_a_record" "this" {
+  name                = local.resource_prefix
+  zone_name           = data.azurerm_dns_zone.this.name
+  resource_group_name = "${lower(replace(var.project, " ", ""))}-prod-zone"
+  ttl                 = 300
+  records             = [azurerm_public_ip.this.ip_address]
+}
