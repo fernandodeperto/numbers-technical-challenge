@@ -12,6 +12,9 @@ Technical challenge that is part of an interview process
 - Git-crypt configuration
 - Gitignore
 - Pre-commit configuration
+- Terraform bootstrap remote state module
+- Terraform service principal module
+- Numbers test environment
 #### Changed
 #### Removed
 
