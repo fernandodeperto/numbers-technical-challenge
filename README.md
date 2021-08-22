@@ -9,6 +9,7 @@ Technical challenge that is part of an interview process
 #### Added
 #### Changed
 - Use the SHA of the commit instead of tag to deploy with Terraform
+- Scale set VMs no longer have SSH access enabled
 #### Removed
 ### [0.5.1]
 #### Added

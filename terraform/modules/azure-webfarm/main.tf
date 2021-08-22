@@ -84,7 +84,6 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
       primary                                = true
       subnet_id                              = azurerm_subnet.this.id
       load_balancer_backend_address_pool_ids = [azurerm_lb_backend_address_pool.this.id]
-      load_balancer_inbound_nat_rules_ids    = [azurerm_lb_nat_pool.this.id]
     }
   }
 
