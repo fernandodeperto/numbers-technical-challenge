@@ -9,10 +9,7 @@
 - [Changelog](#Changelog)
 - [Future steps and limitations](#Future-steps-and-limitations)
 - [Appendix](#Appendix)
-- [References](#References)
 ## TODOs
-- Improve Helmfile with some default environment variables
-- Add version constraints to the Helmfile deployments
 
 ## Pre-requisites
 - [X] Deploy the resources on Azure
@@ -48,11 +45,15 @@
     - This was done with a combination of an Ingress Controller, [External DNS](https://github.com/kubernetes-sigs/external-dns) and [Cert Manager](https://cert-manager.io/), all deployed on the Kubernetes cluster.
     - The app is available at https://postfacto-test.apilabs.xyz
     - An example retro was created and is available at the [invite link](https://postfacto-test.apilabs.xyz/retros/infra-1/join/1eyjJfzWAfTVXhKguwd4r5O0U0dnHH1t)
-- [ ] Postfacto persistent data must have a backup outside of the cluster
+- [X] Postfacto persistent data must have a backup outside of the cluster
+  - Backup is being done on schedule with [Velero](https://velero.io/), deployed to the cluster using Helmfile
+  - Backups are sent to a buckup in the same resource group as the cluster's
+  - Not only PVCs are backed up, but all Kubernetes resources, meaning a whole cluster can be restored from a backup
 - [X] Postfacto app pods cannot be deployed on the same nodes as the database and Redis
     - This is done with [Pod Antiaffinity](helmfile/helmfiles/postfacto/values.yaml#L16)
 - [ ] Deploy two simultanesous versions of the Postfacto app
-    - I know how to do this with Traefik 2. Decided not to do this step to cut down a little on the time used for the task.
+    - I know how to do this with Traefik 2, using a [Router](https://doc.traefik.io/traefik/routing/routers/) and a [Headers](https://doc.traefik.io/traefik/routing/routers/#rule) rule
+    - Decided not to do it to cut down a little on the time used for the task.
     - As an alternative, I would propose (and this is kind of already baked into the architecture used for this project) for a secondary version of the Postfacto app to be deployed and tested on the test environment, while the more stable version is available on the production environment. This is not only a more simple solution, but also isolates the production environment from possible issues and vulnerabilities that might be present on the newer version.
 
 ## Instructions
@@ -111,6 +112,10 @@ helmfile -e numbers-test -l app=postfacto apply
 
 ## Changelog
 ### [Unreleased]
+#### Added
+#### Changed
+#### Removed
+### [0.9.0]
 #### Added
 - Velero Helmfile deployment
 - Storage resources added to the ASK Terraform module
@@ -190,6 +195,8 @@ helmfile -e numbers-test -l app=postfacto apply
 ## Future steps and limitations
 - Move PostgreSQL database to a separate module
 - Move resource groups to a separate module
+- Because it doesn't make sense to have the same DNS Zones managed both on test and prod environments, the main zone is only deployed to the prod environment
+- Ideally, each service/bot/agent that requires access to Azure via Service Principal should have its own set of credentials, and these credentials should minimize permissions, only allowing the agent to do what it needs to. This would be my next step, and wasn't done to cut down a little on time. Currently, each environment has one Service Principal with Contributor permissions. This was recommended by some of the agents used in this challenge.
 
 ## Appendix
 ## CURL command to add items
@@ -200,5 +207,3 @@ curl --location --request POST 'numbers-test-webfarm.apilabs.xyz/item' \
     "name": "a new item"
 }'
 ```
-
-## References
