@@ -20,8 +20,7 @@ Technical challenge that is part of an interview process
 - [X] Deploy WebFarm of 2 nodes (VM, Container, Application Service, etc.)
     - [Terraform module](terraform/modules/azure-webfarm)
     - [Test environment deployment](terraform/environments/numbers-test/azure-webfarm)
-- [X] Scheduled based auto-scaling
-    - [Code](terraform/modules/azure-webfarm/main.tf#L8)
+- [X] [Scheduled based auto-scaling](terraform/modules/azure-webfarm/main.tf#L8)
 - [X] Nodes must be behind a Firewall/WAF
     - Nodes are provisioned by a [scale set](terraform/modules/azure-webfarm/main.tf#L49), and are connected to a [security group](terraform/modules/azure-webfarm/securitygroup.tf) that only allows incoming connections on port 8000, used by the app. Furthermore, a [load balancer](terraform/modules/azure-webfarm/loadbalancer.tf) is provisioned, with a [public IP](terraform/modules/azure-webfarm/network.tf#L18) and backend configuration that leads to the scale set.
 - [X] Deploy a sample Hello app
@@ -29,10 +28,23 @@ Technical challenge that is part of an interview process
     - To run it on the instance, Supervisord is used
     - It supports a [health endpoint](http://numbers-test-webfarm.apilabs.xyz/health), a [GET endpoint](http://numbers-test-webfarm.apilabs.xyz/item) that shows all items in the database, and a [POST endpoint](http://numbers-test-webfarm.apilabs.xyz/item) that can be used to add items to the database. An example can be seen on [CURL command to add items](#CURL-command-to-add-items).
     - The test environment is available at http://numbers-test-webfarm.apilabs.xyz
+- [ ] Deploy an Azure SQL server
+    - To cut down a little on the time used for the tasks, I decided to deploy a [PostgreSQL database](terraform/modules/azure-webfarm/postgresql.tf), managed by Azure, using Terraform. I have more experience with it and this step of the task was done quickly.
+- [X] Create a sample database
+    - The database itself was deployed with Terraform, [here](terraform/modules/azure-webfarm/postgresql.tf#L40). The schema is defined at the app level, as is custom with Flask apps that use SQLAlchemy and migrations. The code is available [here](magnusapi/magnusapi/db.py).
+- [X] [Create a CI/CD pipeline that automates the deployment of changes](.github/workflows)
 
+### Task 2
+- [X] Postfacto must be accessible from the Internet through HTTPS
+    - This was done with a combination of an Ingress Controller, [External DNS](https://github.com/kubernetes-sigs/external-dns) and [Cert Manager](https://cert-manager.io/), all deployed on the Kubernetes cluster.
+- [ ] Postfacto persistent data must have a backup outside of the cluster
+- [X] Postfacto app pods cannot be deployed on the same nodes as the database and Redis
+    - This is done with [Pod Antiaffinity](helmfile/helmfiles/postfacto/values.yaml#L16)
+- [ ] Deploy two simultanesous versions of the Postfacto app
+    - I know how to do this with Traefik 2. Decided not to do this step to cut down a little on the time used for the task.
+    - As an alternative, I would propose (and this is kind of already baked into the architecture used for this project) for a secondary version of the Postfacto app to be deployed and tested on the test environment, while the more stable version is available on the production environment. This is not only a more simple solution, but also isolates the production environment from possible issues and vulnerabilities that might be present on the newer version.
 
 ## Changelog
-
 ### [Unreleased]
 #### Added
 #### Changed
@@ -122,4 +134,3 @@ curl --location --request POST 'numbers-test-webfarm.apilabs.xyz/item' \
 ```
 
 ## References
-[1]: https://github.com/hashicorp/terraform-provider-azurerm/issues/8534
