@@ -12,7 +12,7 @@
 - [References](#References)
 ## TODOs
 - Improve Helmfile with some default environment variables
-- Add Velero to the cluster
+- Add version constraints to the Helmfile deployments
 
 ## Pre-requisites
 - [X] Deploy the resources on Azure

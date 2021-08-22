@@ -1,0 +1,28 @@
+bases:
+  - common/environments.yaml
+  - common/repositories.yaml
+---
+helmDefaults:
+  kubeContext: "{{ .Environment.Name }}"
+
+releases:
+  - name: velero
+    namespace: velero
+    labels:
+      app: velero
+    chart: vmware-tanzu/velero
+    installed: {{ .Values | get "velero.enabled" "false" }}
+    version: {{ .Values | get "velero.version" "" }}
+    missingFileHandler: Warn
+    values:
+      - values.yaml.gotmpl
+  - name: velero-azure-secret
+    namespace: velero
+    labels:
+      app: velero
+    chart: ../../charts/secret
+    installed: {{ .Values | get "velero.enabled" "false" }}
+    version: {{ .Values | get "velero.version" "" }}
+    missingFileHandler: Warn
+    values:
+      - secrets/numbers-test-azure-secret.yaml

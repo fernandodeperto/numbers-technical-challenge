@@ -1,0 +1,36 @@
+configuration:
+  provider: azure
+
+  backupStorageLocation:
+    bucket: {{ .Environment.Name }}-velero
+    config:
+      resourceGroup: MC_{{ .Environment.Name }}-aks_{{ .Environment.Name }}-aks_{{ .Values.location }}
+      storageAccount: {{ .Environment.Name | replace "-" "" }}velero
+
+  volumeSnapshotLocation:
+    config:
+      resourceGroup: MC_{{ .Environment.Name }}-aks_{{ .Environment.Name }}-aks_{{ .Values.location }}
+
+snapshotsEnabled: true
+
+credentials:
+  useSecret: true
+  existingSecret: velero-azure-secret
+
+initContainers:
+  - name: velero-plugin-for-microsoft-azure
+    image: velero/velero-plugin-for-microsoft-azure:v1.2.1
+    imagePullPolicy: IfNotPresent
+    volumeMounts:
+      - mountPath: /target
+        name: plugins
+
+schedules:
+  cluster-backup:
+    disabled: false
+    schedule: "0 0 * * *"
+    useOwnerReferencesInBackup: true
+    template:
+      ttl: "240h"
+      includedNamespaces:
+      - default

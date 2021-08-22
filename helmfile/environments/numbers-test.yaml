@@ -9,3 +9,6 @@ nginx:
 
 postfacto:
   enabled: yes
+
+velero:
+  enabled: yes
