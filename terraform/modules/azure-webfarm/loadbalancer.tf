@@ -34,3 +34,14 @@ resource "azurerm_lb_rule" "this" {
   frontend_ip_configuration_name = azurerm_lb.this.frontend_ip_configuration.0.name
   backend_address_pool_id        = azurerm_lb_backend_address_pool.this.id
 }
+
+# resource "azurerm_lb_nat_pool" "this" {
+#   name                           = "${local.resource_prefix}-natPool"
+#   resource_group_name            = azurerm_resource_group.this.name
+#   loadbalancer_id                = azurerm_lb.this.id
+#   protocol                       = "Tcp"
+#   frontend_port_start            = 50000
+#   frontend_port_end              = 50119
+#   backend_port                   = 22
+#   frontend_ip_configuration_name = azurerm_lb.this.frontend_ip_configuration.0.name
+# }

@@ -57,6 +57,9 @@ Technical challenge that is part of an interview process
 #### Changed
 #### Removed
 
+## Future steps
+- Move PostgreSQL database to a separate module
+
 ## References
 
 [1]: https://github.com/hashicorp/terraform-provider-azurerm/issues/8534

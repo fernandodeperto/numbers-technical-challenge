@@ -84,12 +84,13 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
       primary                                = true
       subnet_id                              = azurerm_subnet.this.id
       load_balancer_backend_address_pool_ids = [azurerm_lb_backend_address_pool.this.id]
+      # load_balancer_inbound_nat_rules_ids    = [azurerm_lb_nat_pool.this.id]
     }
   }
 
   tags = local.default_tags
 
-  depends_on = [azurerm_lb_rule.this]
+  depends_on = [azurerm_lb_rule.this, azurerm_postgresql_database.this]
 }
 
 resource "azurerm_dns_a_record" "this" {
@@ -103,5 +104,4 @@ resource "azurerm_dns_a_record" "this" {
 resource "random_string" "flask_secret_key" {
   length  = 32
   special = false
-  # override_special = "/@$"
 }
