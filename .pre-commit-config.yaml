@@ -13,3 +13,11 @@ repos:
     rev: 3.7.9
     hooks:
     - id: flake8
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: v0.1.12
+    hooks:
+      - id: helmlint
+  - repo: https://github.com/norwoodj/helm-docs
+    rev: v1.2.0
+    hooks:
+      - id: helm-docs
