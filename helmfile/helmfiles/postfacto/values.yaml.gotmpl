@@ -5,13 +5,13 @@ ingress:
     kubernetes.io/ingress.class: "addon-http-application-routing"
     kubernetes.io/tls-acme: "true"
   hosts:
-    - host: postfacto-test.apilabs.xyz
+    - host: postfacto-{{ .Values.environmentShortName }}.{{ .Values.domain }}
       paths:
         - /
   tls:
-    - secretName: postfacto-test-tls
+    - secretName: postfacto-{{ .Values.environmentShortName }}-tls
       hosts:
-        - postfacto-test.apilabs.xyz
+        - postfacto-{{ .Values.environmentShortName }}.{{ .Values.domain }}
 
 affinity:
   podAntiAffinity:

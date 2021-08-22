@@ -25,4 +25,4 @@ releases:
     version: {{ .Values | get "velero.version" "" }}
     missingFileHandler: Warn
     values:
-      - secrets/numbers-test-azure-secret.yaml
+      - secrets/{{ .Environment.Name }}-azure-secret.yaml

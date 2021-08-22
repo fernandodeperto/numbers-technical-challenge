@@ -15,4 +15,5 @@ releases:
     version: {{ .Values | get "postfacto.version" "" }}
     missingFileHandler: Warn
     values:
-      - values.yaml
+      - values.yaml.gotmpl
+      - secrets/{{ .Environment.Name }}.yaml

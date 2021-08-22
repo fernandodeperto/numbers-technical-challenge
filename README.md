@@ -112,7 +112,10 @@ helmfile -e numbers-test -l app=postfacto apply
 ## Changelog
 ### [Unreleased]
 #### Added
+- Velero Helmfile deployment
+- Storage resources added to the ASK Terraform module
 #### Changed
+- Improved Helmfile config files for increased templating
 #### Removed
 ### [0.8.0]
 #### Added

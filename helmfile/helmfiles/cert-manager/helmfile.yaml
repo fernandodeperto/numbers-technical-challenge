@@ -14,8 +14,6 @@ releases:
     installed: {{ .Values | get "cert-manager.enabled" "false" }}
     version: {{ .Values | get "cert-manager.version" "" }}
     missingFileHandler: Warn
-    values:
-      - values.yaml
   - name: cert-manager-issuer
     namespace: default
     labels:
