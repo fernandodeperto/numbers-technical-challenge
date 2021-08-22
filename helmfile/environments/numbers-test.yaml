@@ -6,3 +6,6 @@ external-dns:
 
 nginx:
   enabled: yes
+
+postfacto:
+  enabled: yes

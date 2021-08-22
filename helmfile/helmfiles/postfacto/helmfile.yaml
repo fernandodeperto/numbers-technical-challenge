@@ -1,0 +1,18 @@
+bases:
+  - common/environments.yaml
+  - common/repositories.yaml
+---
+helmDefaults:
+  kubeContext: "{{ .Environment.Name }}"
+
+releases:
+  - name: postfacto
+    namespace: default
+    labels:
+      app: postfacto
+    chart: ../../charts/postfacto
+    installed: {{ .Values | get "postfacto.enabled" "false" }}
+    version: {{ .Values | get "postfacto.version" "" }}
+    missingFileHandler: Warn
+    values:
+      - values.yaml

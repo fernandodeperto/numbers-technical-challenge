@@ -32,8 +32,8 @@ module "aks" {
   private_cluster_enabled          = false
   enable_http_application_routing  = true
   enable_auto_scaling              = true
-  agents_min_count                 = 1
-  agents_max_count                 = 1
+  agents_min_count                 = 2
+  agents_max_count                 = 2
   agents_count                     = null
 
   depends_on = [module.network]

@@ -1,0 +1,26 @@
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/issuer: "cert-manager-issuer"
+    kubernetes.io/ingress.class: "addon-http-application-routing"
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: postfacto-test.apilabs.xyz
+      paths:
+        - /
+  tls:
+    - secretName: postfacto-test-tls
+      hosts:
+        - postfacto-test.apilabs.xyz
+
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: app
+          operator: In
+          values:
+          - postgresql
+          - redis
+      topologyKey: "kubernetes.io/hostname"

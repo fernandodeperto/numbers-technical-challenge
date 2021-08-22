@@ -2,9 +2,19 @@
 Technical challenge that is part of an interview process
 
 ## TODOs
+- Improve Helmfile with some default environment variables
+- Add Velero to the cluster
 
 ## Changelog
 
+### [Unreleased]
+#### Added
+- Postfacto Helm chart and Helmfile config
+- [Posfacto deployment](https://postfacto-test.apilabs.xyz)
+- Link for [example retro](https://postfacto-test.apilabs.xyz/retros/infra-1/join/1eyjJfzWAfTVXhKguwd4r5O0U0dnHH1t)
+#### Changed
+- Increased AKS node count
+#### Removed
 ### [0.7.0]
 #### Added
 - AKS Terraform module
