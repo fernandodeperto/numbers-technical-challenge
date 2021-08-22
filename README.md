@@ -21,12 +21,12 @@ Technical challenge that is part of an interview process
 #### Removed
 ### [0.7.0]
 #### Added
-- AKS Terraform module
-- AKS test environment
-- Helmfile config files
-- Helm chart for creating a secret in the cluster
-- Helm chart for creating a certificate issuer in the cluster
-- Helm chart for testing everything
+- [AKS Terraform module](terraform/modules/azure-aks)
+- [AKS test environment](terraform/environments/numbers-test/azure-aks)
+- [Helmfile config files](helmfile)
+- [Helm chart for creating a secret in the cluster](helmfile/charts/secret)
+- [Helm chart for creating a certificate issuer in the cluster](helmfile/charts/issuer)
+- [Helm chart for testing everything](helmfile/charts/nginx)
 #### Changed
 #### Removed
 ### [0.6.0]
@@ -49,8 +49,8 @@ Technical challenge that is part of an interview process
 #### Removed
 ### [0.4.0]
 #### Added
-- Terraform DNS zone module
-- New production environment containing the DNS zone deployment
+- [Terraform DNS zone module](terraform/modules/azure-zone)
+- [New production environment containing the DNS zone deployment](terraform/environments/numbers-prod/azure-zone)
 #### Changed
 - Fixed small issues with the Webfarm module's custom data script
 - Added support for creating an A record on the Webfarm module
@@ -58,7 +58,7 @@ Technical challenge that is part of an interview process
 #### Removed
 ### [0.3.0]
 #### Added
-- MagnusAPI early version code
+- [MagnusAPI early version code](magnusapi)
 - Terraform custom data script that installs supervisord and loads the API
 #### Changed
 - Port used for communication changed from 80 to 8000, used by uvicorn
@@ -66,24 +66,24 @@ Technical challenge that is part of an interview process
 ### [0.2.0]
 #### Added
 - Terraform state lock files
-- Webfarm Terraform module
+- [Webfarm Terraform module](terraform/modules/azure-webfarm)
 #### Changed
 #### Removed
 ### [0.1.0]
 #### Added
 - Repository, README file, branch and pull request
-- Git-crypt configuration
+- [Git-crypt configuration](.gitattributes)
 - Gitignore
-- Pre-commit configuration
-- Terraform bootstrap remote state module
-- Terraform service principal module
-- Github actions file
+- [Pre-commit configuration](.pre-commit-config.yaml)
+- [Terraform bootstrap remote state module](terraform/modules/azure-remote-state)
+- [Terraform service principal module](terraform/modules/azure-service-principal)
+- [Github actions file](.github/workflows/deploy-magnusapi-test.yaml)
 #### Changed
 #### Removed
 
-## Future steps
+## Future steps and limitations
 - Move PostgreSQL database to a separate module
+- Move resource groups to a separate module
 
 ## References
-
 [1]: https://github.com/hashicorp/terraform-provider-azurerm/issues/8534
