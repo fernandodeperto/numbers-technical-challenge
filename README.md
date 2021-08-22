@@ -81,11 +81,14 @@ terraform apply
 
 ### Helmfile deployments
 
-To apply the Kubernetes deployments with Helmfile a valid Kubeconfig is needed. It can be retrieved from [the AKS environment](terraform/environments/numbers-test/azure-aks) using Terraform and `jq`:
+To apply the Kubernetes deployments with [Helmfile](https://github.com/roboll/helmfile) a valid Kubeconfig is needed. It can be retrieved from [the AKS environment](terraform/environments/numbers-test/azure-aks) using Terraform and `jq`:
 
 ```bash
 terraform output -json | jq -r '.module.value.kube_config_raw' > kubeconfig.yaml
+export KUBECONFIG=$PWD/kubeconfig.yaml
 ```
+
+You also need to make sure that the context name inside the Kubeconfig matches the environment name on Helmfile, as it attemps to change the context to the right one to avoid accidently deploying resources to the wrong environment.
 
 Helmfile deployments can be enabled, applied and deleted separately for environments, or all at once. Deployments are enabled on the environments's main [config file](helmfile/environments). For example, to enable the Postfacto app:
 
