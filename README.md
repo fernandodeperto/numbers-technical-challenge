@@ -9,7 +9,11 @@ Technical challenge that is part of an interview process
 
 ### [Unreleased]
 #### Added
-- Postfacto Helm chart and Helmfile config
+#### Changed
+#### Removed
+### [0.8.0]
+#### Added
+- [Postfacto Helm chart](helmfile/charts/postfacto) and [Helmfile config](helmfile/helmfiles/postfacto)
 - [Posfacto deployment](https://postfacto-test.apilabs.xyz)
 - Link for [example retro](https://postfacto-test.apilabs.xyz/retros/infra-1/join/1eyjJfzWAfTVXhKguwd4r5O0U0dnHH1t)
 #### Changed
