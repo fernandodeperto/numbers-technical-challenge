@@ -90,7 +90,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "this" {
 
   tags = local.default_tags
 
-  depends_on = [azurerm_lb_rule.this, azurerm_postgresql_database.this]
+  depends_on = [azurerm_lb_rule.this]
 }
 
 resource "azurerm_dns_a_record" "this" {

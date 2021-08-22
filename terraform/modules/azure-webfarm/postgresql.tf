@@ -1,7 +1,6 @@
 resource "random_password" "postgresql" {
-  length           = 16
-  special          = true
-  override_special = "_%@"
+  length  = 16
+  special = false
 }
 
 resource "azurerm_postgresql_server" "this" {
