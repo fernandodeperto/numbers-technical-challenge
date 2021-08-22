@@ -7,6 +7,10 @@ Technical challenge that is part of an interview process
 
 ### [Unreleased]
 #### Added
+- AKS Terraform module
+- AKS test environment
+- Helmfile config files
+- Helm charts for creating a secret in the cluster
 #### Changed
 #### Removed
 ### [1.0.0]
