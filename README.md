@@ -46,6 +46,8 @@
 ### Task 2
 - [X] Postfacto must be accessible from the Internet through HTTPS
     - This was done with a combination of an Ingress Controller, [External DNS](https://github.com/kubernetes-sigs/external-dns) and [Cert Manager](https://cert-manager.io/), all deployed on the Kubernetes cluster.
+    - The app is available at https://postfacto-test.apilabs.xyz
+    - An example retro was created and is available at the [invite link](https://postfacto-test.apilabs.xyz/retros/infra-1/join/1eyjJfzWAfTVXhKguwd4r5O0U0dnHH1t)
 - [ ] Postfacto persistent data must have a backup outside of the cluster
 - [X] Postfacto app pods cannot be deployed on the same nodes as the database and Redis
     - This is done with [Pod Antiaffinity](helmfile/helmfiles/postfacto/values.yaml#L16)
