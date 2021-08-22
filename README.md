@@ -5,7 +5,7 @@ Technical challenge that is part of an interview process
 
 ## Changelog
 
-### [Unreleased]
+### [0.7.0]
 #### Added
 - AKS Terraform module
 - AKS test environment
@@ -15,7 +15,7 @@ Technical challenge that is part of an interview process
 - Helm chart for testing everything
 #### Changed
 #### Removed
-### [1.0.0]
+### [0.6.0]
 #### Added
 #### Changed
 - Use the SHA of the commit instead of tag to deploy with Terraform
