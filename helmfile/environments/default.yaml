@@ -1,0 +1,4 @@
+domain: services.quin.md
+
+keycloak:
+  realm: quin-internal-users
