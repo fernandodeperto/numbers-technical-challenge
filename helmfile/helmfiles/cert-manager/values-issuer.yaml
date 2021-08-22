@@ -1,0 +1,3 @@
+issuer:
+  email: certs@apilabs.xyz
+  ingressClass: addon-http-application-routing

@@ -1,0 +1,3 @@
+issuer:
+  email: certs@example.com
+  ingressClass: nginx

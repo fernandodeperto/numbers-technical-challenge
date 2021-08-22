@@ -1,0 +1,28 @@
+bases:
+  - common/environments.yaml
+  - common/repositories.yaml
+---
+helmDefaults:
+  kubeContext: "{{ .Environment.Name }}"
+
+releases:
+  - name: external-dns
+    namespace: kube-system
+    labels:
+      app: external-dns
+    chart: bitnami/external-dns
+    installed: {{ .Values | get "external-dns.enabled" "false" }}
+    version: {{ .Values | get "external-dns.version" "" }}
+    missingFileHandler: Warn
+    values:
+      - values/{{ .Environment.Name }}-external-dns.yaml
+  - name: external-dns-secret
+    namespace: kube-system
+    labels:
+      app: external-dns
+    chart: ../../charts/secret
+    installed: {{ .Values | get "external-dns.enabled" "false" }}
+    version: {{ .Values | get "external-dns.version" "" }}
+    missingFileHandler: Warn
+    values:
+      - secrets/{{ .Environment.Name }}-azure.yaml

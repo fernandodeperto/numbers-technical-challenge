@@ -1,0 +1,26 @@
+ingress:
+  enabled: true
+  annotations:
+    cert-manager.io/issuer: "cert-manager-issuer"
+    kubernetes.io/ingress.class: "addon-http-application-routing"
+    kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: postfacto-{{ .Values.environmentShortName }}.{{ .Values.domain }}
+      paths:
+        - /
+  tls:
+    - secretName: postfacto-{{ .Values.environmentShortName }}-tls
+      hosts:
+        - postfacto-{{ .Values.environmentShortName }}.{{ .Values.domain }}
+
+affinity:
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchExpressions:
+        - key: app
+          operator: In
+          values:
+          - postgresql
+          - redis
+      topologyKey: "kubernetes.io/hostname"

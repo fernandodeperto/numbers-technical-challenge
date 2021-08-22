@@ -1,0 +1,6 @@
+bases:
+- common/environments.yaml
+- common/repositories.yaml
+
+helmfiles:
+- helmfiles/*/helmfile.yaml

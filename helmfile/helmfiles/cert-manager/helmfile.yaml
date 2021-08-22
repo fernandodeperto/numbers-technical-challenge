@@ -1,0 +1,26 @@
+bases:
+  - common/environments.yaml
+  - common/repositories.yaml
+---
+helmDefaults:
+  kubeContext: "{{ .Environment.Name }}"
+
+releases:
+  - name: cert-manager
+    namespace: kube-system
+    labels:
+      app: cert-manager
+    chart: jetstack/cert-manager
+    installed: {{ .Values | get "cert-manager.enabled" "false" }}
+    version: {{ .Values | get "cert-manager.version" "" }}
+    missingFileHandler: Warn
+  - name: cert-manager-issuer
+    namespace: default
+    labels:
+      app: cert-manager
+    chart:  ../../charts/issuer
+    installed: {{ .Values | get "cert-manager.enabled" "false" }}
+    version: {{ .Values | get "cert-manager.version" "" }}
+    missingFileHandler: Warn
+    values:
+      - values-issuer.yaml

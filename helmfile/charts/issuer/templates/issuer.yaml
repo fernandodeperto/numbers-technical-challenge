@@ -1,0 +1,6 @@
+{{- include "libris.mergeValues" . -}}
+
+{{- include "libris.issuer" (list . "issuer.issuer") -}}
+
+{{- define "issuer.issuer" -}}
+{{- end -}}
