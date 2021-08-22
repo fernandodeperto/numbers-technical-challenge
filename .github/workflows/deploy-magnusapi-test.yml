@@ -16,7 +16,6 @@ jobs:
         uses: hashicorp/setup-terraform@v1
       - name: Test Terraform
         run: |
-          RELEASE_VERSION=${GITHUB_REF#refs/*/}
           terraform init
-          terraform apply -auto-approve -var "branch=${RELEASE_VERSION}"
+          terraform apply -auto-approve -var "commit=${GITHUB_SHA}"
         working-directory: terraform/environments/numbers-test/azure-webfarm

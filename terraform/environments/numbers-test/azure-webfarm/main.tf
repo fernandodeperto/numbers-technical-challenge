@@ -3,7 +3,7 @@ module "webfarm" {
   source  = "../../../modules/azure-webfarm"
   project = "Numbers"
   stage   = "test"
-  branch  = var.branch
+  commit  = var.commit
 }
 
 output "module" {

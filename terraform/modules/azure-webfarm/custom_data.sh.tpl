@@ -8,10 +8,10 @@ apt-get install -yq \
     supervisor
 
 git clone \
-    --depth=1 \
-    --branch ${branch} \
     https://github.com/fernandodeperto/numbers-technical-challenge.git \
     /magnusapi
+
+git -C /magnusapi checkout ${commit}
 
 cd /magnusapi/magnusapi
 

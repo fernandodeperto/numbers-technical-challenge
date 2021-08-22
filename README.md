@@ -8,6 +8,7 @@ Technical challenge that is part of an interview process
 ### [Unreleased]
 #### Added
 #### Changed
+- Use the SHA of the commit instead of tag to deploy with Terraform
 #### Removed
 ### [0.5.1]
 #### Added

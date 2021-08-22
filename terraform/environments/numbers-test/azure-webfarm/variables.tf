@@ -1,3 +1,3 @@
-variable "branch" {
-  description = "Branch or tag to be deployed"
+variable "commit" {
+  description = "Commit SHA that will be deployed"
 }

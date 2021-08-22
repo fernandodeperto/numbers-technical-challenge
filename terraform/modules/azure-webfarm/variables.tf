@@ -17,7 +17,6 @@ variable "location" {
   default     = "westeurope"
 }
 
-variable "branch" {
-  description = "Name of the git branch or tag to be used on the deployment"
-  default     = "technical-challenge"
+variable "commit" {
+  description = "Commit SHA that will be deployed"
 }
