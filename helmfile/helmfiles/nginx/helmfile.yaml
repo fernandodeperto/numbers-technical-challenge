@@ -1,0 +1,18 @@
+bases:
+  - common/environments.yaml
+  - common/repositories.yaml
+---
+helmDefaults:
+  kubeContext: "{{ .Environment.Name }}"
+
+releases:
+  - name: nginx
+    namespace: default
+    labels:
+      app: nginx
+    chart: ../../charts/nginx
+    installed: {{ .Values | get "nginx.enabled" "false" }}
+    version: {{ .Values | get "nginx.version" "" }}
+    missingFileHandler: Warn
+    values:
+      - values.yaml

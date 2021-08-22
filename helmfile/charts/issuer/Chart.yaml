@@ -1,0 +1,9 @@
+apiVersion: v2
+name: issuer
+description: A Helm chart for deploying a cert-manager Issuer
+type: application
+version: 0.1.0
+dependencies:
+- name: libris
+  repository: file://../libris
+  version: 0.1.*

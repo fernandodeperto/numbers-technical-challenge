@@ -1,5 +1,4 @@
 {{- define "libris.secret.tpl" -}}
-{{- if .Values.secret.create -}}
 apiVersion: v1
 kind: Secret
 {{ template "libris.metadata" . }}
@@ -9,7 +8,6 @@ kind: Secret
   {{- end }}
 stringData:
   {{- toYaml .Values.secret.data | nindent 2 }}
-{{- end }}
 {{- end -}}
 
 {{- define "libris.secret" -}}

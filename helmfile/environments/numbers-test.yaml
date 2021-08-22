@@ -1,2 +1,8 @@
+cert-manager:
+  enabled: yes
+
 external-dns:
+  enabled: yes
+
+nginx:
   enabled: yes
