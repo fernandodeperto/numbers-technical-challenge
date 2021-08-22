@@ -1,6 +1,15 @@
-# numbers-technical-challenge
-Technical challenge that is part of an interview process
+# Numbers Technical challenge
+> Technical challenge that is part of an interview process
 
+## Table of Contents
+- [TODOs](#TODOs)
+- [Pre-requisites](#Pre-requisites)
+- [Objectives](#Objectives)
+- [Instructions](#Instructions)
+- [Changelog](#Changelog)
+- [Future steps and limitations](#Future-steps-and-limitations)
+- [Appendix](#Appendix)
+- [References](#References)
 ## TODOs
 - Improve Helmfile with some default environment variables
 - Add Velero to the cluster
@@ -43,6 +52,57 @@ Technical challenge that is part of an interview process
 - [ ] Deploy two simultanesous versions of the Postfacto app
     - I know how to do this with Traefik 2. Decided not to do this step to cut down a little on the time used for the task.
     - As an alternative, I would propose (and this is kind of already baked into the architecture used for this project) for a secondary version of the Postfacto app to be deployed and tested on the test environment, while the more stable version is available on the production environment. This is not only a more simple solution, but also isolates the production environment from possible issues and vulnerabilities that might be present on the newer version.
+
+## Instructions
+### Terraform deployments
+To deploy the environments, the only pre-requisites are Terraform and the Azure CLI. The idea with the current directory structure is that modules are create separate from the environments, so they can be reused. We can use the Service Principal modules as example:
+
+```terraform
+module "service_principal" {
+  source  = "../../../modules/azure-service-principal"
+  project = "Numbers"
+  stage   = "test"
+}
+```
+
+Just by referencing the module and changing the few variables, a new Service Principal can deployed, for example in a new project or stage.
+
+It is important to note that all the deployments are using remote state, with the files stored on Azure's storage solution. The exception is the remote state bucket itself, which is bootstrapped and its state file [stored in the repository](terraform/environments/numbers-test/azure-remote-state/terraform.tfstate), encrypted with git-crypt.
+
+Assuming the user is logged in to the Azure CLI, any of the environments can be applied with the regular Terraform commands:
+
+```bash
+terraform init
+terraform plan
+terraform apply
+```
+
+### Helmfile deployments
+
+To apply the Kubernetes deployments with Helmfile a valid Kubeconfig is needed. It can be retrieved from [the AKS environment](terraform/environments/numbers-test/azure-aks) using Terraform and `jq`:
+
+```bash
+terraform output -json | jq -r '.module.value.kube_config_raw' > kubeconfig.yaml
+```
+
+Helmfile deployments can be enabled, applied and deleted separately for environments, or all at once. Deployments are enabled on the environments's main [config file](helmfile/environments). For example, to enable the Postfacto app:
+
+```yaml
+postfacto:
+  enabled: yes
+```
+
+Then, the whole `numbers-test` environment can be applied at once with:
+
+```bash
+helmfile -e numbers-test apply
+```
+
+Or the Postfacto app can be applied separately with:
+
+```bash
+helmfile -e numbers-test -l app=postfacto apply
+```
 
 ## Changelog
 ### [Unreleased]
@@ -123,7 +183,7 @@ Technical challenge that is part of an interview process
 - Move PostgreSQL database to a separate module
 - Move resource groups to a separate module
 
-# Appendix
+## Appendix
 ## CURL command to add items
 ```bash
 curl --location --request POST 'numbers-test-webfarm.apilabs.xyz/item' \
